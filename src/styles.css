@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@700;900&family=Trocchi&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.page-bg {
+  background-image: url(./assets/Confetti\ BG.png);
+}
