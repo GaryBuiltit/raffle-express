@@ -6,29 +6,28 @@ import App from "./App";
 import CreatePage from "./routes/Create";
 import JoinPage from "./routes/Join";
 
-
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 const router = createHashRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: "create/",
-        element: <CreatePage/>
+        element: <CreatePage />,
       },
       {
         path: "pages/",
-        element: <JoinPage/>
+        element: <JoinPage />,
       },
-    ]
-  }
-])
+    ],
+  },
+]);
 
 root.render(
   <StrictMode>
-    <CreatePage />
+    <JoinPage />
   </StrictMode>
 );
