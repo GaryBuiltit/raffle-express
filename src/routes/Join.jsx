@@ -1,18 +1,19 @@
 import React from "react";
 import Nav from "../components/Nav";
 import QrCode from "../components/QrCode";
+import avatars from "../avatars";
+import Contestant from "../components/contestant";
 
 export default function JoinPage() {
-  const mockContestants = 40;
+  const mockContestants = 30;
+  const rafflePin = "Abc12b456709";
 
   const avatarList = [];
 
   for (let i = 0; i < mockContestants; i++) {
-    let avatar = (
-      <div className="avatar placeholder">
-        <div className="bg-neutral w-20 rounded-full" />
-      </div>
-    );
+    const avatarChoice = Math.floor(Math.random() * 11);
+    let avatar = <Contestant avatar={avatars[avatarChoice]} name="johnny" />;
+
     avatarList.push(avatar);
   }
 
@@ -30,8 +31,20 @@ export default function JoinPage() {
               <QrCode title="Test Code" value="www.google.com" />
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-1/2">
-            <div className="bg-black/75"></div>
+
+          {/* pin signup div */}
+          <div className="flex flex-col justify-center items-start w-1/2">
+            <div className="flex flex-col items-center bg-black/75 rounded-lg px-6 py-4 space-y-4">
+              <h2 className="text-2xl text-white font-trocchi">
+                Share Pin With Contestants
+              </h2>
+              <p className="text-5xl text-btn-orange font-trocchi">
+                {rafflePin}
+              </p>
+              <p className="text-white text-lg font-trocchi max-w-xs text-center">
+                Go to www.usemypin.com put in pin and submit form to join raffle
+              </p>
+            </div>
           </div>
         </div>
         <p
@@ -40,8 +53,19 @@ export default function JoinPage() {
         >
           contestants: {avatarList.length}
         </p>
-        <div id="contestants" className="flex mb-14 ml-3 space-x-3">
+        <div
+          id="contestants"
+          className="flex pb-4 pl-3 space-x-3 overflow-x-scroll scrollbar-hide"
+        >
           {avatarList}
+        </div>
+        <div className="flex justify-center mb-4">
+          <button
+            type="button"
+            className="px-4 py-2 bg-black/50 rounded-full mt-4 border-2 border-white hover:shadow-lg hover:bg-opacity-75 hover:scale-110 transition ease-in-out duration-300"
+          >
+            <p className="text-2xl text-white">Pick Winner</p>
+          </button>
         </div>
       </div>
     </div>

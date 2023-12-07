@@ -2,7 +2,8 @@ import React from "react";
 import "../styles.css";
 
 const Nav = () => {
-  const logo = "https://i.ibb.co/Jx7gNqt/Raffle-Express-landing-nav-strip.png";
+  const logo =
+    "https://firebasestorage.googleapis.com/v0/b/raffle-express.appspot.com/o/Raffle%20Express%20landing%20nav%20strip.png?alt=media&token=fa7db83a-b69f-42cb-9129-14ea8024f4b7";
 
   return (
     <div id="nav" className="pt-2 px-2 flex items-center justify-between">

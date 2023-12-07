@@ -1,5 +1,5 @@
 import { StrictMode } from "react";
-import { createHashRouter } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
@@ -19,7 +19,7 @@ const router = createHashRouter([
         element: <CreatePage />,
       },
       {
-        path: "pages/",
+        path: "join/",
         element: <JoinPage />,
       },
     ],
@@ -28,6 +28,6 @@ const router = createHashRouter([
 
 root.render(
   <StrictMode>
-    <JoinPage />
+    <RouterProvider router={router} />
   </StrictMode>
 );
