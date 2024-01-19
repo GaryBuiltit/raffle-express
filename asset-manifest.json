@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/raffle-express/static/css/main.8c30fba5.css",
-    "main.js": "/raffle-express/static/js/main.91a80342.js",
+    "main.css": "/raffle-express/static/css/main.83a3e519.css",
+    "main.js": "/raffle-express/static/js/main.9b287f0a.js",
     "static/media/Confetti BG.png": "/raffle-express/static/media/Confetti BG.0d652acc9f6da7b5e411.png",
     "index.html": "/raffle-express/index.html",
-    "main.8c30fba5.css.map": "/raffle-express/static/css/main.8c30fba5.css.map",
-    "main.91a80342.js.map": "/raffle-express/static/js/main.91a80342.js.map"
+    "main.83a3e519.css.map": "/raffle-express/static/css/main.83a3e519.css.map",
+    "main.9b287f0a.js.map": "/raffle-express/static/js/main.9b287f0a.js.map"
   },
   "entrypoints": [
-    "static/css/main.8c30fba5.css",
-    "static/js/main.91a80342.js"
+    "static/css/main.83a3e519.css",
+    "static/js/main.9b287f0a.js"
   ]
 }
