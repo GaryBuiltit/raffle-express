@@ -5,7 +5,7 @@ import avatars from "../avatars";
 import Contestant from "../components/contestant";
 
 export default function JoinPage() {
-  const mockContestants = 30;
+  const mockContestants = 25;
   const rafflePin = "Abc12b456709";
 
   const avatarList = [];

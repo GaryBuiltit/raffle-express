@@ -13,16 +13,14 @@ const router = createHashRouter([
   {
     path: "/",
     element: <App />,
-    children: [
-      {
-        path: "create/",
-        element: <CreatePage />,
-      },
-      {
-        path: "join/",
-        element: <JoinPage />,
-      },
-    ],
+  },
+  {
+    path: "create/",
+    element: <CreatePage />,
+  },
+  {
+    path: "join/",
+    element: <JoinPage />,
   },
 ]);
 
