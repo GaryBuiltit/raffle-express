@@ -5,24 +5,29 @@ import { Link } from "react-router-dom";
 import JoinButton from "./JoinButton";
 
 const Hero = () => {
-  const heroPic = "https://i.ibb.co/0m0KWkw/raffle-express-hero-pic.png";
+  const heroPic =
+    "https://firebasestorage.googleapis.com/v0/b/raffle-express.appspot.com/o/raffle%20express%20hero%20pic.png?alt=media&token=c7bb0552-5af8-4271-9def-ca4994e7a0f9";
   return (
-    <div className="flex flex-col lg:flex-row h-full mt-8 ">
+    <div className="flex flex-col-reverse lg:flex-row h-full -mt-20 md:mt-6 ">
       {/* **********hero button section************ */}
-      <div id="hero-left" className="w-1/2 flex flex-col items-center lg:pt-10">
-        <h1 className="text-btn-gold font-bold text-9xl">RAFFLE</h1>
-        <h1 className="text-white font-bold text-9xl -mt-7">EXPRESS</h1>
-        <p className="text-white text-2xl font-trocchi">
+      <div
+        id="hero-left"
+        className="lg:w-1/2 flex flex-col items-center lg:pt-10"
+      >
+        <h1 className="text-btn-gold font-bold text-8xl md:text-9xl">RAFFLE</h1>
+        <h1 className="text-white font-bold text-8xl md:text-9xl -mt-7">
+          EXPRESS
+        </h1>
+        <p className="text-white text-xl md:text-2xl font-trocchi">
           Quickly Create Live Raffles For Free
         </p>
 
         {/* Hero buttons */}
-        <div id="hero-btns" className="flex w-3/4 space-x-3 mt-2">
+        <div id="hero-btns" className="flex md:w-3/4 space-x-3 mt-2">
           {/* create raffle button */}
           <button
             id="create-btn"
             className="rounded-full border-4 px-4 py-3 font-bold bg-btn-gold text-btn-orange text-4xl font-archivo w-1/2 scale-75 hover:scale-90 transition duration-200 text-center"
-            href="/create/"
           >
             <Link to={"create/"}>Create Raffle</Link>
           </button>
@@ -41,7 +46,7 @@ const Hero = () => {
         </div>
       </div>
       {/* hreo image section */}
-      <div id="hero-right" className="w-1/2">
+      <div id="hero-right" className="lg:w-1/2">
         <img src={heroPic} alt="raffle celebration" className="" />
       </div>
     </div>
