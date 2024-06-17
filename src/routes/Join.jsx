@@ -3,19 +3,57 @@ import Nav from "../components/Nav";
 import QrCode from "../components/QrCode";
 import avatars from "../avatars";
 import Contestant from "../components/contestant";
+import AddContestantBtn from "../components/add_contestant_button";
 
 export default function JoinPage() {
-  const mockContestants = 25;
+  // const mockContestants = 25;
   const rafflePin = "Abc12b456709";
+  const contestants = [
+    {
+      raffle: "324",
+      name: "joe smotts",
+      email: "joe@mail.com",
+      phone: "777-888-9999",
+      avatar: 2,
+    },
+    {
+      raffle: "324",
+      name: "joe smotts",
+      email: "joe@mail.com",
+      phone: "777-888-9999",
+      avatar: 4,
+    },
+    {
+      raffle: "324",
+      name: "joe smotts",
+      email: "joe@mail.com",
+      phone: "777-888-9999",
+      avatar: 1,
+    },
+    {
+      raffle: "324",
+      name: "joe smotts",
+      email: "joe@mail.com",
+      phone: "777-888-9999",
+      avatar: 11,
+    },
+    {
+      raffle: "324",
+      name: "joe smotts",
+      email: "joe@mail.com",
+      phone: "777-888-9999",
+      avatar: 8,
+    },
+  ];
 
-  const avatarList = [];
+  // const avatarList = [];
 
-  for (let i = 0; i < mockContestants; i++) {
-    const avatarChoice = Math.floor(Math.random() * 11);
-    let avatar = <Contestant avatar={avatars[avatarChoice]} name="johnny" />;
+  // for (let i = 0; i < mockContestants; i++) {
+  //   const avatarChoice = Math.floor(Math.random() * 11);
+  //   let avatar = <Contestant avatar={avatars[avatarChoice]} name="johnny" />;
 
-    avatarList.push(avatar);
-  }
+  //   avatarList.push(avatar);
+  // }
 
   return (
     <div className="h-screen bg-gradient-to-r from-btn-gold to-btn-orange overflow-hidden">
@@ -47,17 +85,27 @@ export default function JoinPage() {
             </div>
           </div>
         </div>
-        <p
-          id="contestant-count"
-          className="text-center text-white font-bold text-xl mb-3 -mt-10"
-        >
-          contestants: {avatarList.length}
-        </p>
-        <div
-          id="contestants"
-          className="flex pb-4 pl-3 space-x-3 overflow-x-scroll scrollbar-hide"
-        >
-          {avatarList}
+        <div className="flex justify-center items-center">
+          <p
+            id="contestant-count"
+            className="text-center text-white font-bold text-xl mb-3"
+          >
+            contestants: {contestants.length}
+          </p>
+          <AddContestantBtn />
+        </div>
+
+        <div id="contestants" className="carousel space-x-6 py-3 px-4 h-full">
+          {contestants.map((contestant, index) => {
+            return (
+              <div className="carousel-item">
+                <Contestant
+                  avatar={avatars[contestant.avatar]}
+                  name={contestant.name.split(" ")[0]}
+                />
+              </div>
+            );
+          })}
         </div>
         <div className="flex justify-center mb-4">
           <button
