@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import RaffleCard from "../components/raffleCard";
 import Footer from "../components/footer";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useSignUp } from "@clerk/clerk-react";
 
 export default function Home() {
   const { userId, isLoaded } = useAuth();
