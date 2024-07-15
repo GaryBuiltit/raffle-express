@@ -1,4 +1,4 @@
-import { SignIn, SignUp } from "@clerk/clerk-react";
+import { SignIn } from "@clerk/clerk-react";
 import Nav from "../components/Nav";
 
 export default function SignInPage() {

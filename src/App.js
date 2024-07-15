@@ -4,9 +4,7 @@ import Nav from "./components/Nav";
 import { Outlet, useNavigate } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
 
-const clerkKey =
-  process.env.REACT_APP_CLERK_PUBLISHABLE_KEY ||
-  "pk_test_Y2xpbWJpbmcta2lsbGRlZXItNy5jbGVyay5hY2NvdW50cy5kZXYk";
+const clerkKey = "pk_test_Y2xpbWJpbmcta2lsbGRlZXItNy5jbGVyay5hY2NvdW50cy5kZXYk";
 
 export const navContext = createContext();
 
