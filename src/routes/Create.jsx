@@ -3,53 +3,51 @@ import Nav from "../components/Nav";
 import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
+import { useDispatch } from "react-redux";
+import { getRaffles } from "../redux/slices/raffles";
 import axios from "axios";
 
 export default function CreatePage() {
-  const [qrChoice, setQrChoice] = useState(false);
-  const [pinChoice, setPinChoice] = useState(false);
-  const [formChoice, setFormChoice] = useState(false);
-  const [nameChoice, setNameChoice] = useState(false);
-  const [emailChoice, setEmailChoice] = useState(false);
-  const [phoneChoice, setPhoneChoice] = useState(false);
-  const [endDate, setEndDate] = useState();
-  const [endTime, setEndTime] = useState();
-  const [raffleName, setRaffleName] = useState();
+  const [phoneChoice, setPhoneChoice] = useState(true);
+  const [endDate, setEndDate] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [raffleName, setRaffleName] = useState(null);
   const [raffleDescription, setraffleDescription] = useState();
   const { userId, isLoaded } = useAuth();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleCheckboxChange = (e) => {
-    let clickedBox = e.target.id;
-
-    if (clickedBox === "choice-name") setNameChoice(!nameChoice);
-    if (clickedBox === "choice-email") setEmailChoice(!emailChoice);
-    if (clickedBox === "choice-phone") setPhoneChoice(!phoneChoice);
-  };
+  const dispatch = useDispatch();
 
   const createRaffle = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("owner", { userId });
-    formData.append("raffle name", { raffleName });
-    formData.append("end date", { endDate });
-    formData.append("end time", { endTime });
-    formData.append("raffle descritpion", { raffleDescription });
-
-    console.log(formData.values());
+    setLoading(true);
+    const raffleData = {
+      user: userId,
+      raffleName: raffleName,
+      endDate: endDate,
+      endTime: endTime,
+      description: raffleDescription,
+      phone: phoneChoice,
+    };
 
     axios
-      .get(
-        "https://srfqzk72qj.execute-api.us-east-1.amazonaws.com/rafle_express",
-        {
-          data: formData,
-        }
-      )
+      .post(`${import.meta.env.VITE_BACKEND_URL}/createRaffle`, raffleData, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
       .then((response) => {
         console.log(response);
+        dispatch(getRaffles(userId));
+        setTimeout(() => {
+          navigate(`/raffle/${response.data.raffleID}`);
+        }, 1000);
       })
       .catch((error) => {
-        console.log("AWSlambaError: " + error);
+        console.log("error creating raffle: " + error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -82,7 +80,6 @@ export default function CreatePage() {
             </h1>
             <form
               id="create-raffle-form"
-              // action=""
               className="mt-4 mx-2 flex-col"
               onSubmit={(e) => {
                 createRaffle(e);
@@ -91,13 +88,14 @@ export default function CreatePage() {
               <div className="flex flex-col sm:flex-row justify-evenly sm:space-x-2 mb-4 sm:mb-2">
                 {/* raffle name block */}
                 <div className="flex flex-col w-full">
-                  <label className="text-white">Raffle Name:</label>
+                  <label className="text-white">*Raffle Name:</label>
                   <input
                     id="raffle-name"
                     // value={raffleName}
                     type="text"
                     className="input input-sm input-bordered mb-3 flex items-center"
                     placeholder="Enter Raffle Name"
+                    disabled={loading}
                     onChange={(value) => {
                       setRaffleName(value.target.value);
                     }}
@@ -105,13 +103,14 @@ export default function CreatePage() {
                 </div>
                 {/* date time block */}
                 <div className="flex flex-col w-full">
-                  <label className="text-white">End Date & Time:</label>
+                  <label className="text-white">*End Date & Time:</label>
 
                   <input
                     id="end-date-time"
                     aria-label="End date and time"
                     type="datetime-local"
                     className="input input-sm text-black"
+                    disabled={loading}
                     onChange={(value) => {
                       const [date, time] = value.target.value.split("T");
                       setEndDate(date);
@@ -120,63 +119,54 @@ export default function CreatePage() {
                   />
                 </div>
               </div>
-
+              {/* raffle description */}
               <textarea
                 value={raffleDescription}
                 className="textarea textarea-bordered w-full mb-2"
                 placeholder="Raffle Description"
+                disabled={loading}
                 onChange={(value) => {
                   setraffleDescription(value.target.value);
                 }}
               ></textarea>
 
-              {/* sign up form field checkbox row */}
+              {/* phone field checkbox row */}
               <div id="sign-up-fields" className="flex items-center space-x-3">
                 <p className="text-white text-lg font-bold">
-                  Sing Up Form Feilds:
+                  Required Phone Number?
                 </p>
-                {/* name field checkbox */}
-                <div id="name-choice-container" className="flex space-x-1">
-                  <label htmlFor="choice-name" className="text-white">
-                    Name
-                  </label>
-                  <input
-                    type="checkbox"
-                    name="choice-name"
-                    id="choice-name"
-                    checked={nameChoice}
-                    onChange={handleCheckboxChange}
-                    className="checkbox bg-white accent-btn-gold"
-                  />
-                </div>
-
-                {/* email field checkbox */}
-                <div id="email-choice-container" className="flex space-x-1">
-                  <label htmlFor="choice-email" className="text-white">
-                    Email
-                  </label>
-                  <input
-                    type="checkbox"
-                    name="choice-email"
-                    id="choice-email"
-                    checked={emailChoice}
-                    onChange={handleCheckboxChange}
-                    className="checkbox bg-white accent-btn-gold"
-                  />
-                </div>
 
                 {/* phone field checkbox */}
                 <div id="phone-choice-container" className="flex space-x-1">
-                  <label htmlFor="choice-phone" className="text-white">
-                    Phone Number
+                  <label htmlFor="choice-phone-yes" className="text-white">
+                    Yes
                   </label>
                   <input
                     type="checkbox"
-                    name="choice-phone"
-                    id="choice-phone"
+                    name="choice-phone-yes"
+                    id="choice-phone-yes"
+                    disabled={loading}
                     checked={phoneChoice}
-                    onChange={handleCheckboxChange}
-                    className="checkbox bg-white accent-btn-gold"
+                    onChange={(e) => {
+                      setPhoneChoice(true);
+                    }}
+                    className="checkbox bg-white checked:bg-btn-gold"
+                  />
+                </div>
+                <div id="phone-choice-container" className="flex space-x-1">
+                  <label htmlFor="choice-phone-no" className="text-white">
+                    No
+                  </label>
+                  <input
+                    type="checkbox"
+                    name="choice-phone-no"
+                    id="choice-phone-no"
+                    disabled={loading}
+                    checked={!phoneChoice}
+                    onChange={(e) => {
+                      setPhoneChoice(false);
+                    }}
+                    className="checkbox bg-white checked:bg-btn-gold"
                   />
                 </div>
               </div>
@@ -186,9 +176,16 @@ export default function CreatePage() {
           <button
             type="submit"
             form="create-raffle-form"
-            className="px-4 py-2 bg-black rounded-full mt-4 border-2 border-white bg-opacity-50 hover:shadow-lg hover:bg-opacity-75 hover:scale-110 transition ease-in-out duration-300"
+            disabled={!raffleName || !endDate || !endTime || loading}
+            className="px-4 py-2 bg-black rounded-full mt-4 border-2 border-white bg-opacity-50 hover:shadow-lg hover:bg-opacity-75 hover:scale-110 transition ease-in-out duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <p className="text-2xl text-white">Start Raffle</p>
+            <p
+              className={`text-2xl text-white ${
+                loading ? "animate-pulse" : ""
+              }`}
+            >
+              {loading ? "Creating Raffle..." : "Start Raffle"}
+            </p>
           </button>
         </div>
         <Footer />

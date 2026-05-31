@@ -1,11 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@700;900&family=Trocchi&display=swap");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --color-btn-gold: #fccb31;
+  --color-btn-orange: #f45755;
+
+  --font-family-libre-franklin: "Libre Franklin";
+  --font-family-trocchi: "Trocchi";
+  --font-family-archivo: "Archivo Black";
+}
 
 .page-bg {
-  background-image: url(./assets/Confetti\ BG.png);
+  background-image: url(/src/assets/Confetti-BG.png);
 }
 
 .hambuger {

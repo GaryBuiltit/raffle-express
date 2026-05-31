@@ -1,124 +1,126 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { UserButton } from "@clerk/clerk-react";
 import { navContext } from "../App";
 
-export default function SignedInNav() {
-  const logo =
-    "https://firebasestorage.googleapis.com/v0/b/raffle-express.appspot.com/o/Raffle%20Express%20landing%20nav%20strip.png?alt=media&token=fa7db83a-b69f-42cb-9129-14ea8024f4b7";
+const NAV_LINKS = [
+  { to: "/home", label: "Home", key: "home" },
+  { to: "/contestants", label: "Contestants", key: "contestants" },
+];
 
-  const hamMenuBtn = document.getElementById("menu-btn");
-  const hamMenu = document.getElementById("menu");
-  const { navSelected, setNavSelected } = useContext(navContext);
+const userButtonAppearance = {
+  elements: {
+    avatarBox: "h-20 w-20",
+  },
+};
 
-  const menuHandler = () => {
-    hamMenuBtn.classList.toggle("open");
-    hamMenu.classList.toggle("hidden");
-    hamMenu.classList.toggle("flex");
-  };
-
-  const navClickHandler = (selection) => {
-    setNavSelected(selection);
-  };
+function NavLink({ to, label, navKey, navSelected, onNavigate }) {
+  const isActive = navSelected === navKey;
 
   return (
-    <nav className="relative container mx-auto">
-      <div id="nav" className="px-2 flex items-center justify-between">
+    <Link
+      to={to}
+      onClick={onNavigate}
+      className={`${
+        isActive ? "text-3xl" : "text-xl hover:text-3xl"
+      } hover:text-btn-gold transition-all`}
+    >
+      <h2
+        className={`font-libreFranklin ${
+          isActive ? "text-btn-gold" : "text-white"
+        }`}
+      >
+        {label}
+      </h2>
+    </Link>
+  );
+}
+
+export default function SignedInNav() {
+  const logo = "/src/assets/logo.png";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { navSelected, setNavSelected } = useContext(navContext);
+  const location = useLocation();
+
+  const closeMenu = () => setMenuOpen(false);
+  const toggleMenu = () => setMenuOpen((open) => !open);
+
+  useEffect(() => {
+    setNavSelected(location.pathname.split("/")[1]);
+    closeMenu();
+  }, [location.pathname, setNavSelected]);
+
+  return (
+    <nav className="relative z-50 w-full bg-black py-2">
+      <div className="px-4 flex justify-between items-center">
         <div className="pt-2">
-          <Link to={"/home"}>
+          <Link to="/home" onClick={closeMenu}>
             <img src={logo} alt="Raffle Express Logo" className="h-16" />
           </Link>
         </div>
 
-        {/* menu */}
         <div className="hidden md:flex space-x-4 items-center text-2xl">
-          <Link
-            to={"/home"}
-            onClick={() => {
-              navClickHandler("home");
-            }}
-            className={`${
-              navSelected == "home" ? "text-3xl" : "text-xl hover:text-3xl"
-            } hover:text-btn-gold transition-all`}
-          >
-            <h2
-              id="nav-home"
-              className={`font-libreFranklin ${
-                navSelected == "home" ? "text-btn-gold" : "text-white"
-              }`}
-            >
-              Home
-            </h2>
-          </Link>
-          <Link
-            to={"/contestants"}
-            onClick={() => {
-              navClickHandler("contestants");
-            }}
-            className={`${
-              navSelected == "contestants"
-                ? "text-3xl"
-                : "text-xl hover:text-3xl"
-            } hover:text-btn-gold transition-all`}
-          >
-            <h2
-              id="nav-home"
-              className={`font-libreFranklin ${
-                navSelected == "contestants" ? "text-btn-gold" : "text-white"
-              }`}
-            >
-              Contestants
-            </h2>
-          </Link>
-          <Link
-            to={"/create"}
-            onClick={() => {
-              navClickHandler("new raffle");
-            }}
-            className={`${
-              navSelected == "new raffle"
-                ? "text-3xl"
-                : "text-xl hover:text-3xl"
-            } hover:text-btn-gold transition-all`}
-          >
-            <h2
-              id="nav-new-raffle"
-              className={`font-libreFranklin ${
-                navSelected == "new raffle" ? "text-btn-gold" : "text-white"
-              }`}
-            >
-              New Raffle
-            </h2>
-          </Link>
+          {NAV_LINKS.map((link) => (
+            <NavLink
+              key={link.key}
+              to={link.to}
+              label={link.label}
+              navKey={link.key}
+              navSelected={navSelected}
+            />
+          ))}
         </div>
 
-        <UserButton
-          appearance={{
-            elements: {
-              avatarBox: "h-16 w-16",
-            },
-          }}
-        />
+        <div className="hidden md:block">
+          <UserButton appearance={userButtonAppearance} />
+        </div>
 
         <button
-          id="menu-btn"
-          className="block hambuger mr-2 md:hidden focus:outline-none"
-          onClick={menuHandler}
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="signed-in-mobile-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className={`block hambuger mr-2 md:hidden focus:outline-none ${
+            menuOpen ? "open" : ""
+          }`}
+          onClick={toggleMenu}
         >
-          <span className="hamburger-top"></span>
-          <span className="hamburger-middle"></span>
-          <span className="hamburger-bottom"></span>
+          <span className="hamburger-top" />
+          <span className="hamburger-middle" />
+          <span className="hamburger-bottom" />
         </button>
       </div>
-      <div className="md:hidden">
-        <div
-          id="menu"
-          className="absolute rounded-md flex-col hidden items-center self-end py-8 mt-6 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
-        >
-          <a href="#">Pricing</a>
-          <a href="#">Product</a>
-        </div>
-      </div>
+
+      {menuOpen && (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-40 bg-black/60 md:hidden"
+            onClick={closeMenu}
+            aria-label="Close menu"
+          />
+          <div
+            id="signed-in-mobile-menu"
+            className="absolute left-0 right-0 top-full z-50 flex flex-col border-t border-white/20 bg-black shadow-xl md:hidden"
+          >
+            <div className="flex flex-col items-center gap-6 py-8 px-6 font-bold">
+              {NAV_LINKS.map((link) => (
+                <NavLink
+                  key={link.key}
+                  to={link.to}
+                  label={link.label}
+                  navKey={link.key}
+                  navSelected={navSelected}
+                  onNavigate={closeMenu}
+                />
+              ))}
+              <div className="pt-2 border-t border-white/20 w-full flex justify-center">
+                <UserButton appearance={userButtonAppearance} />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </nav>
   );
 }

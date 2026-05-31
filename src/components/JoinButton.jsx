@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Popup from "reactjs-popup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function JoinButton() {
+  const [rafflePin, setRafflePin] = useState("");
+  const navigate = useNavigate();
+
+  const joinRaffleHandler = () => {
+    if (rafflePin.length === 4) {
+      sessionStorage.removeItem("raffle");
+      navigate(`/joinraffle/${rafflePin}`);
+      close();
+    } else {
+      alert("Please enter a valid 4 digit raffle pin number");
+    }
+  };
+
   return (
     <Popup
       trigger={
         <button
           id="join-btn"
-          className="rounded-full border-4 px-4 py-3 font-bold bg-btn-gold text-btn-orange text-4xl font-archivo w-1/2 scale-75 hover:scale-90 transition duration-200"
+          className="rounded-full border-4 border-white px-4 py-3 font-bold bg-btn-gold text-btn-orange text-4xl font-archivo w-1/2 scale-75 hover:scale-90 transition duration-200 hover:border-btn-orange cursor-pointer"
         >
           Join A Raffle
         </button>
@@ -33,16 +46,20 @@ export default function JoinButton() {
             </h3>
             <input
               type="text"
-              name="raffle_id"
-              id="raffle_id"
-              className="h-8 w-full bg-gray-300 rounded"
-              placeholder="Enter Raffle ID"
+              name="raffle-pin"
+              id="raffle-pin"
+              className="h-8 w-full bg-gray-300 roundedn pl-2"
+              placeholder="Enter Raffle Pin"
+              value={rafflePin}
+              onChange={(e) => setRafflePin(e.target.value)}
+              required
             />
             <button
               type="button"
               className="btn mt-3 bg-btn-gold hover:bg-btn-orange"
+              onClick={joinRaffleHandler}
             >
-              <Link to={"join/"}>Join Raffle</Link>
+              Join Raffle
             </button>
           </form>
         </div>

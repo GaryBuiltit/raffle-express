@@ -1,81 +1,108 @@
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-export default function SignedOutNav() {
-  const logo =
-    "https://firebasestorage.googleapis.com/v0/b/raffle-express.appspot.com/o/Raffle%20Express%20landing%20nav%20strip.png?alt=media&token=fa7db83a-b69f-42cb-9129-14ea8024f4b7";
+const NAV_LINKS = [
+  { to: "/sign-in", label: "Login", key: "sign-in" },
+  { to: "/sign-up", label: "Sign Up", key: "sign-up", isButton: true },
+];
 
-  const hamMenuBtn = document.getElementById("menu-btn");
-  const hamMenu = document.getElementById("menu");
-
-  const menuHandler = () => {
-    hamMenuBtn.classList.toggle("open");
-    hamMenu.classList.toggle("hidden");
-    hamMenu.classList.toggle("flex");
-  };
+function NavLink({ to, label, isButton, onNavigate }) {
+  if (isButton) {
+    return (
+      <Link
+        to={to}
+        onClick={onNavigate}
+        className="rounded-full border-4 px-4 py-1 font-bold bg-gradient-to-r from-btn-gold to-btn-orange hover:scale-110 transition duration-300"
+      >
+        <span className="font-libreFranklin text-white">{label}</span>
+      </Link>
+    );
+  }
 
   return (
-    <nav className="relative container mx-2 md:mx-auto">
-      <div id="nav" className="px-2 flex items-center justify-between">
-        <button className="pt-2">
-          <Link to={"/"}>
+    <Link
+      to={to}
+      onClick={onNavigate}
+      className="text-xl cursor-pointer font-bold hover:text-btn-gold hover:text-2xl transition-all"
+    >
+      <h2 className="font-libreFranklin text-white">{label}</h2>
+    </Link>
+  );
+}
+
+export default function SignedOutNav() {
+  const logo = "/src/assets/logo.png";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const closeMenu = () => setMenuOpen(false);
+  const toggleMenu = () => setMenuOpen((open) => !open);
+
+  useEffect(() => {
+    closeMenu();
+  }, [location.pathname]);
+
+  return (
+    <nav className="relative z-50 w-full bg-black py-2">
+      <div className="px-4 flex justify-between items-center">
+        <div className="pt-2">
+          <Link to="/" onClick={closeMenu}>
             <img src={logo} alt="Raffle Express Logo" className="h-16" />
           </Link>
-        </button>
+        </div>
 
         <div className="hidden md:flex text-white space-x-4 items-center text-2xl">
-          {/* <a
-           href=""
-           className="text-xl hover:text-btn-gold hover:text-2xl transition-all"
-         >
-           <h2 className="font-libreFranklin">How It Works</h2>
-         </a> */}
-          {/* <a
-           href=""
-           className="text-xl hover:text-btn-gold hover:text-2xl transition-all"
-         >
-           <h2 className="font-libreFranklin">Pricing</h2>
-         </a> */}
+          <NavLink to="/sign-in" label="Login" />
           <Link
-            to={"/sign-in"}
-            className="text-xl hover:text-btn-gold hover:text-2xl transition-all"
-          >
-            <h2 className="font-libreFranklin">Login</h2>
-          </Link>
-          {/* <a
-           href=""
-           className="text-xl hover:text-btn-gold hover:text-2xl transition-all"
-         >
-           <h2 className="font-libreFranklin">Login</h2>
-         </a> */}
-
-          <button
-            id="signup-btn"
-            type="button"
+            to="/sign-up"
             className="rounded-full border-4 px-4 py-1 font-bold bg-gradient-to-r from-btn-gold to-btn-orange hover:scale-110 transition duration-300"
           >
-            <Link to={"/sign-up"}>Sign Up</Link>
-          </button>
+            Sign Up
+          </Link>
         </div>
 
         <button
-          id="menu-btn"
-          className="block hambuger mr-2 md:hidden focus:outline-none"
-          onClick={menuHandler}
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="signed-out-mobile-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className={`block hambuger mr-2 md:hidden focus:outline-none ${
+            menuOpen ? "open" : ""
+          }`}
+          onClick={toggleMenu}
         >
-          <span className="hamburger-top"></span>
-          <span className="hamburger-middle"></span>
-          <span className="hamburger-bottom"></span>
+          <span className="hamburger-top" />
+          <span className="hamburger-middle" />
+          <span className="hamburger-bottom" />
         </button>
       </div>
-      <div className="md:hidden">
-        <div
-          id="menu"
-          className="absolute rounded-md flex-col hidden items-center self-end py-8 mt-6 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
-        >
-          <a href="#">Pricing</a>
-          <a href="#">Product</a>
-        </div>
-      </div>
+
+      {menuOpen && (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-40 bg-black/60 md:hidden"
+            onClick={closeMenu}
+            aria-label="Close menu"
+          />
+          <div
+            id="signed-out-mobile-menu"
+            className="absolute left-0 right-0 top-full z-50 flex flex-col border-t border-white/20 bg-black shadow-xl md:hidden"
+          >
+            <div className="flex flex-col items-center gap-6 py-8 px-6 font-bold">
+              {NAV_LINKS.map((link) => (
+                <NavLink
+                  key={link.key}
+                  to={link.to}
+                  label={link.label}
+                  isButton={link.isButton}
+                  onNavigate={closeMenu}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </nav>
   );
 }
