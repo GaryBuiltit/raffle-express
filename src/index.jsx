@@ -1,6 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { logo } from "./assets/images.js";
+
+const favicon = document.querySelector('link[rel="icon"]');
+if (favicon) {
+  favicon.href = logo;
+}
 import App from "./App.jsx";
 import CreatePage from "./routes/Create.jsx";
 import RafflePage from "./routes/RafflePage.jsx";

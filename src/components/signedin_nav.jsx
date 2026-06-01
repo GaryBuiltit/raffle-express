@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { UserButton } from "@clerk/clerk-react";
 import { navContext } from "../App";
+import { logo } from "../assets/images.js";
 
 const NAV_LINKS = [
   { to: "/home", label: "Home", key: "home" },
@@ -37,7 +38,6 @@ function NavLink({ to, label, navKey, navSelected, onNavigate }) {
 }
 
 export default function SignedInNav() {
-  const logo = "/src/assets/logo.png";
   const [menuOpen, setMenuOpen] = useState(false);
   const { navSelected, setNavSelected } = useContext(navContext);
   const location = useLocation();

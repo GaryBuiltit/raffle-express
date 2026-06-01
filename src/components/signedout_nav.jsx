@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { logo } from "../assets/images.js";
 
 const NAV_LINKS = [
   { to: "/sign-in", label: "Login", key: "sign-in" },
@@ -31,7 +32,6 @@ function NavLink({ to, label, isButton, onNavigate }) {
 }
 
 export default function SignedOutNav() {
-  const logo = "/src/assets/logo.png";
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 

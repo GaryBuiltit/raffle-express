@@ -3,9 +3,9 @@ import react from "react";
 import Popup from "reactjs-popup";
 import { Link } from "react-router-dom";
 import JoinButton from "./JoinButton";
+import { heroPic, raffleTickets } from "../assets/images.js";
 
 const Hero = () => {
-  const heroPic = "/src/assets/raffle express hero pic.png";
   return (
     <div className="flex flex-col-reverse md:flex-row h-full justify-start md:overflow-y-hidden">
       {/* **********hero button section************ */}
@@ -37,7 +37,7 @@ const Hero = () => {
           <JoinButton />
         </div>
         <div className="flex space-x-2 mt-6 justify-center items-center mb-6 md:mb-0">
-          <img src="/src/assets/raffle-tickets.png" alt="raffle tickets" />
+          <img src={raffleTickets} alt="raffle tickets" />
           <p className="text-white text-lg font-trocchi max-w-[300px]">
             Sign up contestants with QR code, pin, or live on-screen forms
           </p>

@@ -1,7 +1,7 @@
 import React from "react";
+import { logo } from "../assets/images.js";
 
 export default function Footer() {
-  const logo = "/src/assets/logo.png";
   return (
     <footer className="footer bg-neutral text-neutral-content items-center justify-center px-4 py-2">
       <aside className="flex items-center text-center gap-2">
