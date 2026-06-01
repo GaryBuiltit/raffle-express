@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const mongoPass = process.env.MONGO_PWORD;
-const uri = `mongodb+srv://garybuiltit86:${mongoPass}@cluster0.kdt49gm.mongodb.net/raffle_express?appName=Cluster0`;
+const uri = process.env.MONGO_URI;
 
 let connectPromise = null;
 
