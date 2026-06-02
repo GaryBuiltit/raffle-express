@@ -12,6 +12,7 @@ import { IoMdArrowBack, IoMdRefresh, IoMdCreate } from "react-icons/io";
 import RaffleFormDrawer from "../components/RaffleFormDrawer";
 import { getContestantDisplayName } from "../utils/pickRandomWinner";
 import WinnerPickOverlay from "../components/WinnerPickOverlay";
+import Footer from "../components/footer";
 
 export default function RafflePage() {
   const { id } = useParams();
@@ -59,9 +60,9 @@ export default function RafflePage() {
   }, [userId, dispatch, raffles, allContestants]);
 
   return (
-    <div className="h-screen bg-gradient-to-r from-btn-gold to-btn-orange overflow-y-scroll overflow-x-hidden">
-      <div id="confetti-bg-join" className="flex flex-col page-bg">
-        <div className="flex items-center justify-between px-4 py-2">
+    <div className="flex flex-col min-h-[100dvh] h-screen bg-gradient-to-r from-btn-gold to-btn-orange overflow-hidden">
+      <div id="confetti-bg-join" className="flex flex-col flex-1 min-h-0 page-bg">
+        <div className="flex shrink-0 items-center justify-between px-4 py-2">
           <Link to="/home" className="">
             <span className="flex items-center space-x-2 text-white text-xl font-trocchi hover:text-black transition-all">
               <IoMdArrowBack className="text-2xl" />
@@ -79,15 +80,16 @@ export default function RafflePage() {
             </button>
           )}
         </div>
+        <main className="flex flex-1 flex-col min-h-0 overflow-y-auto overflow-x-hidden">
         {isLoading ? (
-          <div className="flex justify-center items-center h-full w-full">
+          <div className="flex flex-1 justify-center items-center w-full">
             <span className="loading loading-ring loading-xs"></span>
             <span className="loading loading-ring loading-sm"></span>
             <span className="loading loading-ring loading-md"></span>
             <span className="loading loading-ring loading-lg"></span>
           </div>
         ) : notFound ? (
-          <div className="flex justify-center items-center h-full w-full">
+          <div className="flex flex-1 justify-center items-center w-full">
             <p className="text-white text-xl font-trocchi">Raffle not found.</p>
           </div>
         ) : (
@@ -184,6 +186,8 @@ export default function RafflePage() {
             />
           </div>
         )}
+        </main>
+        <Footer />
       </div>
       {raffle && (
         <RaffleFormDrawer

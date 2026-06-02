@@ -92,20 +92,21 @@ export default function JoinRafflePage() {
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col min-h-[100dvh]">
       <SignedOutNav />
 
-      <div className="bg-gradient-to-r from-btn-gold to-btn-orange min-h-[100dvh]">
-        <div id="confetti-bg-join" className="flex flex-col h-full page-bg">
+      <div className="bg-gradient-to-r from-btn-gold to-btn-orange flex flex-col flex-1 min-h-0">
+        <div id="confetti-bg-join" className="flex flex-col flex-1 min-h-0 page-bg">
+          <main className="flex flex-1 flex-col min-h-0 w-full">
           {raffle === null ? (
-            <div className="flex items-center justify-center h-full w-full">
+            <div className="flex flex-1 items-center justify-center w-full">
               <span className="loading loading-ring loading-xs"></span>
               <span className="loading loading-ring loading-sm"></span>
               <span className="loading loading-ring loading-md"></span>
               <span className="loading loading-ring loading-lg"></span>
             </div>
           ) : (
-            <div className="flex flex-col md:flex-row justify-center h-full w-full space-x-10">
+            <div className="flex flex-col md:flex-row justify-center flex-1 items-center w-full md:space-x-10 px-4">
               <div className="flex flex-col items-center w-full md:w-1/2">
                 <span className="text-4xl font-bold mt-10">
                   {raffle?.raffleName}
@@ -233,6 +234,7 @@ export default function JoinRafflePage() {
               </div>
             </div>
           )}
+          </main>
 
           <Footer />
         </div>

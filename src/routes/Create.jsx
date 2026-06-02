@@ -62,13 +62,13 @@ export default function CreatePage() {
   return (
     <div
       id="create-page"
-      className="h-screen bg-gradient-to-r from-btn-gold to-btn-orange overflow-hidden"
+      className="flex flex-col min-h-[100dvh] h-screen bg-gradient-to-r from-btn-gold to-btn-orange overflow-hidden"
     >
-      <div id="confetti-background" className="flex flex-col h-full page-bg">
+      <div id="confetti-background" className="flex flex-col flex-1 min-h-0 h-full page-bg">
         <Nav />
-        <div
+        <main
           id="create-pg-container"
-          className="h-full flex flex-col items-center justify-center"
+          className="flex flex-1 flex-col items-center justify-center min-h-0 px-4 py-6"
         >
           {/* create card */}
           <div
@@ -187,7 +187,7 @@ export default function CreatePage() {
               {loading ? "Creating Raffle..." : "Start Raffle"}
             </p>
           </button>
-        </div>
+        </main>
         <Footer />
       </div>
     </div>
