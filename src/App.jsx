@@ -12,7 +12,7 @@ const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 export const navContext = createContext();
 
-if (clerkKey === null) {
+if (!clerkKey) {
   throw new Error("Missing Clerk Publishable Key");
 }
 
