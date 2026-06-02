@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import ReduxAuthListener from "./components/ReduxAuthListener";
 
-const clerkKey = "pk_test_Y2xpbWJpbmcta2lsbGRlZXItNy5jbGVyay5hY2NvdW50cy5kZXYk";
+const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 export const navContext = createContext();
 
